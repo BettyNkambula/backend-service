@@ -1,7 +1,7 @@
 # backend-service
 ================
 
-Handles payments
+Handles storage of veninging machine items and calculates the chnage
 Trigger build & deploy
 
 
