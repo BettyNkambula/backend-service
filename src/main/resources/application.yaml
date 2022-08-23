@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=vendm
+    username: postgres
+    password: password
+
+  flyway:
+    enabled: true
+    user: postgres
+    password: password
+    locations: classpath:db/migration/all

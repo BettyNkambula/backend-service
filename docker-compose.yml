@@ -1,0 +1,51 @@
+# Using version 2 as 3 does not support memory/CPU limits https://github.com/docker/compose/issues/4513
+version: '2'
+
+services:
+  proxy:
+    image: traefik
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  backend-service:
+    image: backend-service
+    build: .
+    mem_limit: 1024M
+    environment:
+      - |-
+        JAVA_OPTS=
+        -Dspring.profiles.active=
+        -Dspring.kafka.bootstrap-servers=kafka:19092
+        -Dspring.datasource.url=jdbc:postgresql://db:5432/eftpbidb?currentSchema=eftpbi
+        -Dspring.flyway.user=admin
+        -Dspring.flyway.password=password
+    labels:
+      - "traefik.http.routers.payment-processor.rule=Host(`processor.localhost`)"
+    depends_on:
+      - kafka
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/postgres/var/lib/postgresql/data:/var/lib/postgresql/data:rw
+      - ./data/postgres/init:/docker-entrypoint-initdb.d
+
+  cadvisor:
+    image: google/cadvisor:latest
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    labels:
+      - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.localhost`)"
