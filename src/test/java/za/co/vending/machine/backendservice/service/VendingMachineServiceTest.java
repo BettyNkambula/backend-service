@@ -18,7 +18,9 @@ import za.co.vending.machine.backendservice.service.calculation.ChangeCalculator
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -65,9 +67,11 @@ public class VendingMachineServiceTest {
     @Test
     void testCurrencyDenominator_empty() {
         List<BigDecimal> items = vendingMachineService.getCurrencyDenominator();
-        Assertions.assertEquals(items.size(), 0);
+        Assertions.assertEquals(0, items.size());
 
     }
+
+
 
     @Test
     void testPurchase_Success() throws ErrorHandler {

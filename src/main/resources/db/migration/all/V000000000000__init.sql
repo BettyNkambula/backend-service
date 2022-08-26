@@ -39,34 +39,10 @@ CREATE TABLE IF NOT EXISTS vendm.currency_denominator_table
 );
 
 INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (1, 5);
+SELECT n, 5 FROM generate_series(1, 50) AS n(n) ON conflict do nothing;
 
 INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (2, 5);
+SELECT n, 10 FROM generate_series(1, 100) AS n(n) ON conflict do nothing;
 
 INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (3, 5);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (4, 10);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (5, 10);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (6, 10);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (7, 20);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (8, 20);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (9, 20);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (10, 20);
-
-INSERT INTO vendm.currency_denominator_table(id, currency_denominator)
-VALUES (11, 20);
+SELECT n, 20 FROM generate_series(1, 40) AS n(n) ON conflict do nothing;
